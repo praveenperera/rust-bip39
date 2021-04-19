@@ -53,6 +53,9 @@ use bitcoin_hashes::{sha256, Hash};
 #[cfg(feature = "std")]
 use unicode_normalization::UnicodeNormalization;
 
+#[cfg(feature = "zeroize")]
+use zeroize::Zeroize;
+
 #[macro_use]
 mod internal_macros;
 mod language;
@@ -152,6 +155,7 @@ impl error::Error for Error {}
 ///
 /// Supported number of words are 12, 18 and 24.
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "zeroize", derive(Zeroize), zeroize(drop))]
 pub struct Mnemonic {
 	/// The language the mnemonic.
 	lang: Language,
